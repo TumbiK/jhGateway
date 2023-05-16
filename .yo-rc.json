@@ -1,0 +1,66 @@
+{
+  "generator-jhipster": {
+    "applicationIndex": 0,
+    "applicationType": "gateway",
+    "authenticationType": "oauth2",
+    "baseName": "gateway",
+    "blueprints": [],
+    "buildTool": "maven",
+    "cacheProvider": "no",
+    "clientFramework": "react",
+    "clientPackageManager": "npm",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1684243382911,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "devServerPort": 9060,
+    "dtoSuffix": "DTO",
+    "enableGradleEnterprise": false,
+    "enableHibernateCache": false,
+    "enableSwaggerCodegen": false,
+    "enableTranslation": true,
+    "entities": [],
+    "entitySuffix": "",
+    "gradleEnterpriseHost": "",
+    "jhiPrefix": "jhi",
+    "jhipsterVersion": "7.9.3",
+    "jwtSecretKey": "ZjM0Y2MzMGQxYzllYmI4MmQxMzNhMzczZjBhZmU3ODA1M2ZhYjUyY2FmZjY5MTA3MjU2NWNiMWFhN2JhMTk2NGM2MWQyNDZkZTY4ZWFlNGVjNTM3Njc5MzUxMDU5MGUwNzA5N2U4MDRlMTc0OGU2OTc0MWVjOTIyNTUyYzhjNTM=",
+    "languages": ["en"],
+    "messageBroker": false,
+    "microfrontends": [
+      {
+        "baseName": "gateway"
+      },
+      {
+        "baseName": "approval"
+      },
+      {
+        "baseName": "notifiction"
+      },
+      {
+        "baseName": "performance"
+      },
+      {
+        "baseName": "finances"
+      }
+    ],
+    "nativeLanguage": "en",
+    "otherModules": [],
+    "packageFolder": "com/nitel/gateway",
+    "packageName": "com.nitel.gateway",
+    "pages": [],
+    "prodDatabaseType": "mysql",
+    "reactive": true,
+    "searchEngine": false,
+    "serverPort": "8080",
+    "serviceDiscoveryType": "consul",
+    "skipCheckLengthOfIdentifier": false,
+    "skipClient": false,
+    "skipFakeData": false,
+    "skipUserManagement": true,
+    "testFrameworks": ["cypress"],
+    "websocket": false,
+    "withAdminUi": true
+  }
+}

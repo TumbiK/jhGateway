@@ -1,0 +1,16 @@
+application {
+  config {
+    baseName gateway
+    reactive true
+    packageName com.nitel.gateway
+    applicationType gateway
+    authenticationType oauth2
+    clientFramework react
+    prodDatabaseType mysql
+    serviceDiscoveryType consul
+    testFrameworks [cypress]
+    microfrontends [gateway, approval, notifiction,performance,finances]
+    
+   
+  }
+}

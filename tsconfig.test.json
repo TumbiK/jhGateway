@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig",
+  "include": ["src/main/webapp/app", "src/main/webapp/microfrontend"],
+  "exclude": [],
+  "compilerOptions": {
+    "paths": {
+      "@gateway/*": ["src/main/webapp/microfrontends/*"],
+      "@approval/*": ["src/main/webapp/microfrontends/*"],
+      "@notifiction/*": ["src/main/webapp/microfrontends/*"],
+      "@performance/*": ["src/main/webapp/microfrontends/*"],
+      "@finances/*": ["src/main/webapp/microfrontends/*"],
+      "app/*": ["src/main/webapp/app/*"]
+    },
+    "types": ["jest", "webpack-env"]
+  }
+}
