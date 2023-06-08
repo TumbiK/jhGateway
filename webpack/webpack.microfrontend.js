@@ -16,7 +16,7 @@ module.exports = ({ serve }) => {
         remotes: {
           '@gateway': `gateway@/services/gateway/remoteEntry.js`,
           '@approval': `approval@/services/approval/remoteEntry.js`,
-          '@notifiction': `notifiction@/services/notifiction/remoteEntry.js`,
+          '@notifiction': `notification@/services/notification/remoteEntry.js`,
           '@performance': `performance@/services/performance/remoteEntry.js`,
           '@finances': `finances@/services/finances/remoteEntry.js`,
         },

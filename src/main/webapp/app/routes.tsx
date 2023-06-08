@@ -10,6 +10,10 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
+import SidebarLayout from './shared/layouts/SidebarLayout';
+import BaseLayout from './shared/layouts/BaseLayout';
+import DashboardCrypto from './shared/content/dashboards/Crypto';
+import SuspenseLoader from './shared/components/SuspenseLoader';
 
 const loading = <div>loading ...</div>;
 
@@ -18,17 +22,31 @@ const Admin = Loadable({
   loading: () => loading,
 });
 
+const Loader = Component => props =>
+  (
+    <Suspense fallback={<SuspenseLoader />}>
+      <Component {...props} />
+    </Suspense>
+  );
+
 const GatewayRoutes = React.lazy(() => import('@gateway/entities-routes').catch(() => import('app/shared/error/error-loading')));
 const ApprovalRoutes = React.lazy(() => import('@approval/entities-routes').catch(() => import('app/shared/error/error-loading')));
 const NotifictionRoutes = React.lazy(() => import('@notifiction/entities-routes').catch(() => import('app/shared/error/error-loading')));
 const PerformanceRoutes = React.lazy(() => import('@performance/entities-routes').catch(() => import('app/shared/error/error-loading')));
 const FinancesRoutes = React.lazy(() => import('@finances/entities-routes').catch(() => import('app/shared/error/error-loading')));
 
+const Crypto = Loader(React.lazy(() => import('./shared/content/dashboards/Crypto')));
+
 const AppRoutes = () => {
   return (
     <div className="view-routes">
       <ErrorBoundaryRoutes>
         <Route index element={<Home />} />
+
+        <Route path="dashboard" element={<SidebarLayout />}>
+          <Route path="dash" element={<DashboardCrypto />} />
+        </Route>
+
         <Route path="logout" element={<Logout />} />
         <Route
           path="admin/*"
@@ -43,7 +61,9 @@ const AppRoutes = () => {
           path="gateway/*"
           element={
             <Suspense fallback={loading}>
-              <PrivateRoute hasAnyAuthorities={[AUTHORITIES.USER]}>
+              <PrivateRoute
+                hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.HR, AUTHORITIES.USER, AUTHORITIES.FINANCE, AUTHORITIES.EMPLOYEE]}
+              >
                 <GatewayRoutes />
               </PrivateRoute>
             </Suspense>
@@ -53,7 +73,7 @@ const AppRoutes = () => {
           path="approval/*"
           element={
             <Suspense fallback={loading}>
-              <PrivateRoute hasAnyAuthorities={[AUTHORITIES.USER]}>
+              <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN]}>
                 <ApprovalRoutes />
               </PrivateRoute>
             </Suspense>
@@ -73,26 +93,28 @@ const AppRoutes = () => {
           path="performance/*"
           element={
             <Suspense fallback={loading}>
-              <PrivateRoute hasAnyAuthorities={[AUTHORITIES.USER]}>
+              <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.HR, AUTHORITIES.FINANCE, AUTHORITIES.EMPLOYEE]}>
                 <PerformanceRoutes />
               </PrivateRoute>
             </Suspense>
           }
         />
-        <Route
-          path="finances/*"
-          element={
-            <Suspense fallback={loading}>
-              <PrivateRoute hasAnyAuthorities={[AUTHORITIES.USER]}>
-                <FinancesRoutes />
-              </PrivateRoute>
-            </Suspense>
-          }
-        />
+        <Route path="/finances/" element={<SidebarLayout />}>
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={loading}>
+                <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.HR, AUTHORITIES.FINANCE, AUTHORITIES.EMPLOYEE]}>
+                  <FinancesRoutes />
+                </PrivateRoute>
+              </Suspense>
+            }
+          />
+        </Route>
         <Route
           path="*"
           element={
-            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.USER]}>
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN]}>
               <EntitiesRoutes />
             </PrivateRoute>
           }

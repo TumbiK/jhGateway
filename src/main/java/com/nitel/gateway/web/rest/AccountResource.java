@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -52,6 +53,11 @@ public class AccountResource {
         } else {
             throw new AccountResourceException("User could not be found");
         }
+    }
+
+    @GetMapping("/accounts")
+    public Flux<AdminUserDTO> getAccounts() {
+        return userService.getAllManagedUsers();
     }
 
     /**

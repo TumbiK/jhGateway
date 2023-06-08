@@ -271,4 +271,8 @@ public class UserService {
         user.setActivated(activated);
         return user;
     }
+
+    public Flux<AdminUserDTO> getAllManagedUsers() {
+        return userRepository.findAll().map(AdminUserDTO::new);
+    }
 }

@@ -10,6 +10,7 @@ export const initialState = {
   loading: false,
   isAuthenticated: false,
   account: {} as any,
+  accounts: {} as any,
   errorMessage: null as unknown as string, // Errors returned from server side
   redirectMessage: null as unknown as string,
   sessionHasBeenFetched: false,
@@ -22,8 +23,10 @@ export type AuthenticationState = Readonly<typeof initialState>;
 
 export const getSession = (): AppThunk => async (dispatch, getState) => {
   await dispatch(getAccount());
+  await dispatch(getAccounts());
 
   const { account } = getState().authentication;
+  const { accounts } = getState().authentication;
   if (account && account.langKey) {
     const langKey = Storage.session.get('locale', account.langKey);
     await dispatch(setLocale(langKey));
@@ -31,6 +34,10 @@ export const getSession = (): AppThunk => async (dispatch, getState) => {
 };
 
 export const getAccount = createAsyncThunk('authentication/get_account', async () => axios.get<any>('api/account'), {
+  serializeError: serializeAxiosError,
+});
+
+export const getAccounts = createAsyncThunk('authentication/get_accounts', async () => axios.get<any>('api/accounts'), {
   serializeError: serializeAxiosError,
 });
 
@@ -80,10 +87,20 @@ export const AuthenticationSlice = createSlice({
         const isAuthenticated = action.payload && action.payload.data && action.payload.data.activated;
         return {
           ...state,
-          isAuthenticated,
+          isAuthenticated: true,
           loading: false,
           sessionHasBeenFetched: true,
           account: action.payload.data,
+        };
+      })
+      .addCase(getAccounts.fulfilled, (state, action) => {
+        const isAuthenticated = action.payload && action.payload.data;
+        return {
+          ...state,
+          isAuthenticated: true,
+          loading: false,
+          sessionHasBeenFetched: true,
+          accounts: action.payload.data,
         };
       })
       .addCase(logoutServer.fulfilled, (state, action) => ({
